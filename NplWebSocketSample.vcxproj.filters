@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Mod">
+      <UniqueIdentifier>{12fcaad7-bd5d-4d58-9779-7f8a1b276125}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="script">
+      <UniqueIdentifier>{42e07a7c-692b-4ffb-8d7d-659bf78196c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="script\apps">
+      <UniqueIdentifier>{ade2ed2e-2e9d-4b42-b346-8b75a6f1dde4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="script\apps\WebServer">
+      <UniqueIdentifier>{3cdf183b-e6e9-4ec4-b15f-ed8ea45a1882}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="script\apps\WebServer\admin">
+      <UniqueIdentifier>{1931a2a9-fa10-4e7d-8ac9-ed1f1cfa3678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="script\apps\WebServer\admin\wp-content">
+      <UniqueIdentifier>{6fdf817d-5f44-4d44-b43e-8c3249118fd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="script\apps\WebServer\admin\wp-content\pages">
+      <UniqueIdentifier>{4ee3d8bb-c3b0-49b0-beea-747b75673fcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplsocketsample">
+      <UniqueIdentifier>{3184816d-dfdc-4b1d-b192-8335ae580616}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplsocketsample\controllers">
+      <UniqueIdentifier>{c0ef2952-1582-44bd-b7ad-6bdd5d04ce74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="script\apps\WebServer\admin\wp-content\pages\nplsocketsample\templates">
+      <UniqueIdentifier>{d84a16d5-6212-4606-885f-81bd08727bb8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Mod\NplWebSocketSample\main.lua">
+      <Filter>Mod</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplsocketsample.page">
+      <Filter>script\apps\WebServer\admin\wp-content\pages</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplsocketsample\controllers\NplSocketSampleController.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplsocketsample\controllers</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplsocketsample\templates\NplSocketSampleTemplate.html">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplsocketsample\templates</Filter>
+    </None>
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplsocketsample\app.js">
+      <Filter>script\apps\WebServer\admin\wp-content\pages\nplsocketsample</Filter>
+    </None>
+  </ItemGroup>
+</Project>

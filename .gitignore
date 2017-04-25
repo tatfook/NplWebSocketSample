@@ -1,0 +1,12 @@
+.vs
+npl_packages
+*.db
+*.opendb
+*.sdf
+*.suo
+*.log
+*.txt
+Debug
+Mod/NplCadLibrary
+Mod/ModelVoxelizer
+Release
