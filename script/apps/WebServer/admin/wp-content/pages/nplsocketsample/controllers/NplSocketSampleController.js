@@ -6,7 +6,7 @@ m.component("customcomponent", {
         $scope.onConnect = function () {
 
             // Let us open a web socket
-            var ws = new WebSocket("ws://localhost:60001");
+            var ws = new WebSocket("ws://localhost:8099/ajax/nplsocketsample?action=handshake");
 
             ws.onopen = function () {
                 // Web Socket is connected, send data using send()

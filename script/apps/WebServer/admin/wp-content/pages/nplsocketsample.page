@@ -4,6 +4,7 @@ Title:
 Author: leio
 Date: 2017/4/25
 Desc: 
+The WebSocket Handshake: https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_servers
 ]]
 PAGE_NO_SIDE_BAR = true;
 wp_enqueue_script("ace",						"/wp-includes/js/ace/ace.js"); 
@@ -18,8 +19,24 @@ wp_enqueue_style("easyui_icon", 				"/wp-includes/js/jeasyui/themes/icon.css");
 wp_enqueue_script("NplWebSocketSample_App",					"/wp-content/pages/NplSocketSample/app.js");
 wp_enqueue_script("NplSocketSampleController",			"/wp-content/pages/NplSocketSample/controllers/NplSocketSampleController.js");
 
+NPL.load("(gl)script/ide/System/Encoding/sha1.lua");
+local Encoding = commonlib.gettable("System.Encoding");
+
 if(is_ajax()) then
-	
+	add_action('wp_ajax_handshake', function()
+        local key = request:header("Sec-WebSocket-Key");
+
+        if(key and key ~= "")then
+            key = key .. "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
+            key = Encoding.sha1(key,"base64");
+            response:add_header("status", "101 Switching Protocols");
+            response:set_header("Upgrade", "websocket");
+            response:set_header("Connection", "Upgrade");
+            response:set_header("Sec-WebSocket-Accept", key);
+            response:send_headers();
+        end
+    end)
+    return
 end
 
 ?>
