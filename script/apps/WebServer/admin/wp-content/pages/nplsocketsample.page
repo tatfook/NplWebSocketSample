@@ -7,42 +7,48 @@ Desc:
 The WebSocket Handshake: https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API/Writing_WebSocket_servers
 ]]
 PAGE_NO_SIDE_BAR = true;
-wp_enqueue_script("ace",						"/wp-includes/js/ace/ace.js"); 
-wp_enqueue_script("angular",					"/wp-includes/js/angular/angular.min.js");
-wp_enqueue_script("ngStorage",					"/wp-includes/js/angular/ngStorage.js");
-wp_enqueue_script("ngSanitize",					"/wp-includes/js/angular/angular-sanitize.min.js");
-wp_enqueue_script("ui-bootstrap-tpls",			"/wp-includes/js/angular/ui-bootstrap-tpls-1.3.3.min.js");
-wp_enqueue_style("bootstrap-css",				"/wp-includes/js/bootstrap/css/bootstrap.min.css");
-wp_enqueue_script("jquery",						"/wp-includes/js/jquery/jquery.min.js");
-wp_enqueue_style("easyui_icon", 				"/wp-includes/js/jeasyui/themes/icon.css");
 
-wp_enqueue_script("NplWebSocketSample_App",					"/wp-content/pages/NplSocketSample/app.js");
-wp_enqueue_script("NplSocketSampleController",			"/wp-content/pages/NplSocketSample/controllers/NplSocketSampleController.js");
+
+NPL.load("(gl)Mod/NplWebSocketSample/main.lua");
+local NplWebSocketSample = commonlib.gettable("Mod.NplWebSocketSample");
+NplWebSocketSample.AddPublicFile();
 
 NPL.load("(gl)script/ide/System/Encoding/sha1.lua");
 local Encoding = commonlib.gettable("System.Encoding");
-
+local user_id = "leio";
 if(is_ajax()) then
-	add_action('wp_ajax_websocketmsg', function()
-        local body = request:GetBody();
-        commonlib.echo("=========body");
-        commonlib.echo(body);
-    end)
 	add_action('wp_ajax_handshake', function()
         local key = request:header("Sec-WebSocket-Key");
 
         if(key and key ~= "")then
+            response.headers = {};
             key = key .. "258EAFA5-E914-47DA-95CA-C5AB0DC85B11";
             key = Encoding.sha1(key,"base64");
             response:add_header("status", "101 Switching Protocols");
-            response:set_header("Upgrade", "websocket");
             response:set_header("Connection", "Upgrade");
+            response:set_header("Upgrade", "websocket");
             response:set_header("Sec-WebSocket-Accept", key);
             response:send_headers();
+
+            local tid = request.nid;
+            -- quick authentication, just accept any connection as simpleclient
+            local nid = user_id;
+            NPL.accept(tid, nid);
+            return;
         end
     end)
     return
 end
+
+wp_enqueue_script("ace",						"/wp-includes/js/ace/ace.js"); 
+wp_enqueue_script("angular",					"/wp-includes/js/angular/angular.min.js");
+wp_enqueue_script("ngStorage",					"/wp-includes/js/angular/ngStorage.js");
+wp_enqueue_script("ui-bootstrap-tpls",			"/wp-includes/js/angular/ui-bootstrap-tpls-1.3.3.min.js");
+wp_enqueue_style("bootstrap-css",				"/wp-includes/js/bootstrap/css/bootstrap.min.css");
+wp_enqueue_script("jquery",						"/wp-includes/js/jquery/jquery.min.js");
+
+wp_enqueue_script("NplWebSocketSample_App",					"/wp-content/pages/NplSocketSample/app.js");
+wp_enqueue_script("NplSocketSampleController",			"/wp-content/pages/NplSocketSample/controllers/NplSocketSampleController.js");
 
 ?>
 <div ng-app="NplWebSocketSample_App">

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Mod\NplWebSocketSample\main.lua" />
+    <None Include="script\apps\WebServer\admin\wp-content\pages\nplsocketconnection.page" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplsocketsample.page" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplsocketsample\app.js" />
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplsocketsample\controllers\NplSocketSampleController.js" />

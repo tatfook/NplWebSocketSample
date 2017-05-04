@@ -4,13 +4,23 @@ m.component("customcomponent", {
     controller: function ($scope, $http, $log) {
         $scope.is_connected = false;
         $scope.index = 0;
+        var server_handle_id = 20;
+
+        $scope.sendMsg = function(msg){
+            if ($scope.ws && $scope.is_connected) {
+                var data = {
+                    s_id: server_handle_id,
+                    msg: [msg]
+                }
+                var s = JSON.stringify(data);
+                console.log("======sendMsg",s);
+                $scope.ws.send(s);
+            }
+        }
         $scope.onConnect = function () {
-
-            // Let us open a web socket
             var ws = new WebSocket("ws://localhost:8099/ajax/nplsocketsample?action=handshake");
-
             ws.onopen = function () {
-                ws.send("Hello World");
+                console.log("==========onopen");
                 $scope.is_connected = true;
             };
 
@@ -22,6 +32,7 @@ m.component("customcomponent", {
             ws.onclose = function () {
                 // websocket is closed.
                 console.log("Connection is closed...");
+                $scope.is_connected = false;
             };
             ws.onerror = function (e) {
                 console.log("onerror:",e);
@@ -30,10 +41,8 @@ m.component("customcomponent", {
         }
 
         $scope.onSend = function () {
-            if ($scope.ws && $scope.is_connected) {
-                $scope.index++;
-                $scope.ws.send("Hello World " + $scope.index);
-            }
+            $scope.index = $scope.index + 1;
+            $scope.sendMsg("Hello World " + $scope.index)
         }
     }
 
