@@ -15,9 +15,14 @@ NplWebSocketSample.AddPublicFile();
 
 NPL.load("(gl)script/ide/System/Encoding/sha1.lua");
 local Encoding = commonlib.gettable("System.Encoding");
-local user_id = "leio";
+
 if(is_ajax()) then
 	add_action('wp_ajax_handshake', function()
+
+        local user_id = request:get("user_id");
+        if(not user_id or user_id == "")then
+            user_id = "leio";
+        end
         local key = request:header("Sec-WebSocket-Key");
 
         if(key and key ~= "")then
@@ -34,6 +39,9 @@ if(is_ajax()) then
             -- quick authentication, just accept any connection as simpleclient
             local nid = user_id;
             NPL.accept(tid, nid);
+
+            -- for tesing broadcast
+            NplWebSocketSample.AddUser(nid);
             return;
         end
     end)

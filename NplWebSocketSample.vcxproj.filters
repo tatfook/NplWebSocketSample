@@ -48,8 +48,6 @@
     <None Include="script\apps\WebServer\admin\wp-content\pages\nplsocketsample\app.js">
       <Filter>script\apps\WebServer\admin\wp-content\pages\nplsocketsample</Filter>
     </None>
-    <None Include="script\apps\WebServer\admin\wp-content\pages\nplsocketconnection.page">
-      <Filter>script\apps\WebServer\admin\wp-content\pages</Filter>
-    </None>
+    <None Include="README.md" />
   </ItemGroup>
 </Project>
