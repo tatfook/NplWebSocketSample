@@ -1,6 +1,6 @@
 # NplWebSocketSample
 A sample showing how to communicate npl server with the protocol of websocket.
-### Clent request 
+### Client request 
 ```js
 // user 1
 http://localhost:8099/nplsocketsample?user_id=user1
