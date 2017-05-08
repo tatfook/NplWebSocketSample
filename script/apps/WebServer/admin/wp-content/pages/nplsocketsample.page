@@ -36,9 +36,12 @@ if(is_ajax()) then
             response:send_headers();
 
             local tid = request.nid;
-            -- quick authentication, just accept any connection as simpleclient
+            -- quick authentication
             local nid = user_id;
             NPL.accept(tid, nid);
+            -- Changing protocol type to 1,so we can use websocket protocol
+            NPL.SetProtocol(nid,1);
+            
 
             -- for tesing broadcast
             NplWebSocketSample.AddUser(nid);
