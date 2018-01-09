@@ -9,15 +9,16 @@ m.component("customcomponent", {
         $scope.showLog = function (log) {
             document.getElementById("output").innerHTML = log;
         }
+        $scope.showLogReceived = function (log) {
+            document.getElementById("output_received").innerHTML = log;
+        }
+        
         $scope.sendMsg = function(msg){
             if ($scope.ws && $scope.is_connected) {
-                var data = {
-                    s_id: server_handle_id,
-                    msg: [msg]
-                }
-                var s = JSON.stringify(data);
-                $scope.ws.send(s);
-                $scope.showLog("send msg:" + s);
+                var input_length = msg.length;
+                msg = JSON.stringify({ msg });
+                $scope.ws.send(msg);
+                $scope.showLog("send msg size:" + msg.length + " input_length:" + input_length);
             }
         }
         $scope.onConnect = function () {
@@ -28,8 +29,13 @@ m.component("customcomponent", {
             };
 
             ws.onmessage = function (evt) {
-                var received_msg = evt.data;
-                console.log("Message is received:", received_msg);
+                var msg = evt.data;
+                msg = JSON.parse(msg);
+                var received_msg = msg.received_msg;
+                var received_msg_len = msg.received_msg_len;
+                var body_len = msg.body_len;
+                console.log("received msg:", received_msg);
+                $scope.showLogReceived(" body_len:" + body_len + " received_msg_len:" + received_msg_len);
             };
 
             ws.onclose = function () {
@@ -51,6 +57,14 @@ m.component("customcomponent", {
             if ($scope.ws && $scope.is_connected) {
                 $scope.ws.close();
             }
+        }
+        $scope.onSendBigData = function () {
+            $scope.index = $scope.index + 1;
+            $scope.sendMsg($scope.getBigData());
+        }
+        $scope.getBigData = function () {
+            var s = "{\"data\":{\"type\":\"offer\",\"sdp\":\"8888888abcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsaabcdefgabcdefdsgfdastgerwrttesafdsafewrefdsfdaafdsfetefdfdsafdasfdsa\"}}"
+            return s;
         }
     }
 

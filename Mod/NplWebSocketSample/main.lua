@@ -7,7 +7,9 @@ use the lib:
 ------------------------------------------------------------
 NPL.load("(gl)Mod/NplWebSocketSample/main.lua");
 local NplWebSocketSample = commonlib.gettable("Mod.NplWebSocketSample");
-NplWebSocketSample.SendMsgToAll("Hello everyone!");
+NplWebSocketSample.SendMsgToAll({
+	received_msg = "Hello everyone!",
+});
 ------------------------------------------------------------
 ]]
 
@@ -49,7 +51,7 @@ end
 
 function NplWebSocketSample.AddPublicFile()
     if(not NplWebSocketSample.added)then
-        NPL.AddPublicFile("Mod/NplWebSocketSample/main.lua", 20);
+        NPL.AddPublicFile("Mod/NplWebSocketSample/main.lua", -20);
         NplWebSocketSample.added = true;
     end
 end
@@ -71,13 +73,17 @@ end
 local function activate()
     if(msg and msg.nid)then
         local json = msg[1];
+		local len = string.len(json);
         local out={};
         if(NPL.FromJson(json, out)) then
             -- received msg from client
-            local received_msg = out[1];
-
+            local received_msg = out.msg;
             -- send msg to client
-			NplWebSocketSample.SendMsg(msg.nid,received_msg);
+			NplWebSocketSample.SendMsg(msg.nid,{
+				received_msg = received_msg,
+				received_msg_len = string.len(received_msg),
+				body_len = len,
+			});
         end
     end
 end
